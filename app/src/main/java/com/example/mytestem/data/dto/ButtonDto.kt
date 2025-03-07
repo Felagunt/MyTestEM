@@ -1,5 +1,5 @@
 package com.example.mytestem.data.dto
 
-data class Button(
+data class ButtonDto(
     val text: String
 )
