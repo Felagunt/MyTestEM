@@ -26,6 +26,23 @@ class MainViewModel @Inject constructor(
             _state.value
         )
 
+        fun onAction(action: MainAction) {
+            when(action) {
+                is MainAction.OnSearchQueryChange -> {
+
+                }
+                is MainAction.OnVacancyClick -> {
+
+                }
+                is MainAction.OnFavoriteClick -> {
+
+                }
+                is MainAction.OnOfferClick -> {
+
+                }
+            }
+        }
+
 
 
 }

@@ -28,8 +28,8 @@ import com.example.mytestem.util.toDate
 fun VacancyListItem(
     vacancy: Vacancy,
     modifier: Modifier = Modifier,
-    date: String,
-    onFavoriteClick: () -> Unit
+    onFavoriteClick: () -> Unit,
+    onResponseClick: () -> Unit
 ) {
     Surface(
         shape = RoundedCornerShape(32.dp),
@@ -103,7 +103,7 @@ fun VacancyListItem(
                 ),
                 shape = RoundedCornerShape(32.dp),
                 onClick = {
-
+                    onResponseClick()
                 }
             ) {
                 Text(text = "Откликнуться")
