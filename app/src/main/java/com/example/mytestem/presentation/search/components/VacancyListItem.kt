@@ -34,7 +34,8 @@ fun VacancyListItem(
     Surface(
         shape = RoundedCornerShape(32.dp),
         modifier = Modifier,
-        color = MaterialTheme.colorScheme.surfaceTint
+        color = MaterialTheme.colorScheme.surface,
+        tonalElevation = 4.dp
     ) {
         Column(
             modifier = modifier,

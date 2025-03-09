@@ -1,6 +1,7 @@
 package com.example.mytestem.presentation.search
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,8 +13,11 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -65,7 +69,7 @@ private fun MainScreen(
     val scrollContext = rememberScrollContext(listState)
     val itemList = remember {
         mutableListOf(
-            state.vacancyList.subList(1,4)
+            state.vacancyList.subList(1, 4)
         )
     }
     val initialList = state.vacancyList.subList(1, 4)
@@ -92,6 +96,21 @@ private fun MainScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+
+            if (state.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.surface)
+                )
+            }
+            if (state.errorMsg?.isNotBlank() == true) {
+                Text(
+                    text = state.errorMsg,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.background(MaterialTheme.colorScheme.surface)
+                )
+            }
             if (state.offerList.isNotEmpty()) {
                 LazyRow(
                     modifier = Modifier,
@@ -127,7 +146,7 @@ private fun MainScreen(
                         )
                     }
                     if (showMore) {
-                        itemList.add(4,leastList)
+                        itemList.add(4, leastList)
 //                        items(leastList) { vacancy ->
 //                            VacancyListItem(
 //                                vacancy = vacancy,
@@ -135,21 +154,21 @@ private fun MainScreen(
 //                                    onAction(MainAction.OnFavoriteClick(vacancy.id))
 //                                }
 //                            )
-                        }
                     }
                 }
-                this@Column.AnimatedVisibility(scrollContext.isBottom) {
-                    Button(
-                        onClick = {
-                            showMore = true
-                            itemList.add(4,leastList)
-                        }
-                    ) {
-                        Text("Ещё ${leastList.size} вакансии ")
-                    }
-                }
-
             }
+            this@Column.AnimatedVisibility(scrollContext.isBottom) {
+                Button(
+                    onClick = {
+                        showMore = true
+                        itemList.add(4, leastList)
+                    }
+                ) {
+                    Text("Ещё ${leastList.size} вакансии ")
+                }
+            }
+
         }
     }
+}
 

@@ -42,7 +42,8 @@ fun SearchBarVacancy(
         Surface(
             shape = RoundedCornerShape(32.dp),
             modifier = Modifier,
-            color = MaterialTheme.colorScheme.surfaceTint
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 4.dp
         ) {
             OutlinedTextField(
                 value = searchQuery,
@@ -103,7 +104,8 @@ fun SearchBarVacancy(
         Surface(
             shape = RoundedCornerShape(32.dp),
             modifier = Modifier,
-            color = MaterialTheme.colorScheme.surfaceTint
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 4.dp
         ) {
             Icon(
                 Icons.Default.Menu,
