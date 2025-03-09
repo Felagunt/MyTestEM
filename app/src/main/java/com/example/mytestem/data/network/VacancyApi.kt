@@ -1,10 +1,20 @@
 package com.example.mytestem.data.network
 
+import com.example.mytestem.data.dto.OfferDto
 import com.example.mytestem.data.dto.ResponseDto
+import com.example.mytestem.data.dto.VacancyDto
 import retrofit2.http.GET
 
 interface VacancyApi {
+    //http://localhost:3000/offers
+    //http://localhost:3000/vacancies
 
     @GET
-    suspend fun getVacancy(): ResponseDto
+    suspend fun getAll(): ResponseDto
+
+    @GET("/vacancies")
+    suspend fun getVacancies(): List<VacancyDto>
+
+    @GET("offerrs")
+    suspend fun getOffers(): List<OfferDto>
 }

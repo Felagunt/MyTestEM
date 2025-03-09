@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mytestem.domain.models.Vacancy
 import com.example.mytestem.presentation.search.MainAction
@@ -26,7 +27,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FavoriteScreenRoot(
-    viewModel: FavoriteViewModel = koinViewModel(),
+    viewModel: FavoriteViewModel = hiltViewModel(),
     onClickVacancy: (Vacancy) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -81,24 +82,30 @@ private fun FavoriteScreen(
                 )
             }
             state.vacancyList.let {
-                LazyColumn(
-                    modifier = Modifier,
+                Surface(
+                    tonalElevation = 4.dp,
+                    color = MaterialTheme.colorScheme.surface
                 ) {
-                    items(it) { vacancy ->
-                        VacancyListItem(
-                            vacancy = vacancy,
-                            onFavoriteClick = {
-                                onAction(FavoriteAction.OnFavoriteClick(vacancy.id))
-                            },
-                            onResponseClick = {
+                    LazyColumn(
+                        modifier = Modifier,
+                    ) {
+                        items(it) { vacancy ->
+                            VacancyListItem(
+                                vacancy = vacancy,
+                                onFavoriteClick = {
+                                    onAction(FavoriteAction.OnFavoriteClick(vacancy.id))
+                                },
+                                onResponseClick = {
 
-                            },
-                            modifier = Modifier
-                                .clickable {
-                                    onAction(FavoriteAction.OnVacancyClick(vacancy))
-                                }
-                        )
+                                },
+                                modifier = Modifier
+                                    .clickable {
+                                        onAction(FavoriteAction.OnVacancyClick(vacancy))
+                                    }
+                            )
+                        }
                     }
+
                 }
             }
         }

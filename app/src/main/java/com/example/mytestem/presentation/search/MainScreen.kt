@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mytestem.domain.models.Vacancy
 import com.example.mytestem.presentation.search.components.RecommendationItem
@@ -38,7 +39,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MainScreenRoot(
-    viewModel: MainViewModel = koinViewModel(),
+    viewModel: MainViewModel = hiltViewModel(),
     onClickVacancy: (Vacancy) -> Unit
 ) {
 
@@ -67,13 +68,13 @@ private fun MainScreen(
     val lastVisible =
         listState.layoutInfo.visibleItemsInfo.lastIndex //+ listState.firstVisibleItemIndex
     val scrollContext = rememberScrollContext(listState)
-    val itemList = remember {
-        mutableListOf(
-            state.vacancyList.subList(1, 4)
-        )
-    }
-    val initialList = state.vacancyList.subList(1, 4)
-    val leastList = state.vacancyList.subList(5, state.offerList.lastIndex)
+//    val itemList = remember {
+//        mutableListOf(
+//            state.vacancyList.subList(1, 4)
+//        )
+//    }
+//    val initialList = state.vacancyList.subList(1, 4)
+//    val leastList = state.vacancyList.subList(5, state.offerList.lastIndex)
 
     Scaffold(
         topBar = {
@@ -130,7 +131,7 @@ private fun MainScreen(
                     modifier = Modifier,
                     state = listState
                 ) {
-                    items(initialList) { vacancy ->
+                    items(state.vacancyList) { vacancy ->
                         VacancyListItem(
                             vacancy = vacancy,
                             onFavoriteClick = {
@@ -146,7 +147,7 @@ private fun MainScreen(
                         )
                     }
                     if (showMore) {
-                        itemList.add(4, leastList)
+                        //itemList.add(4, leastList)
 //                        items(leastList) { vacancy ->
 //                            VacancyListItem(
 //                                vacancy = vacancy,
@@ -161,10 +162,10 @@ private fun MainScreen(
                 Button(
                     onClick = {
                         showMore = true
-                        itemList.add(4, leastList)
+                        //itemList.add(4, leastList)
                     }
                 ) {
-                    Text("Ещё ${leastList.size} вакансии ")
+                    Text("Ещё  вакансии ")//${leastList.size}
                 }
             }
 
