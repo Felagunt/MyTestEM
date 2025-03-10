@@ -19,4 +19,10 @@ class VacanciesRepositoryImp @Inject constructor(
     override suspend fun getVacancies(): List<Vacancy> {
         return api.getVacancies().map { it.toVacancy() }
     }
+
+    override suspend fun getVacancyDetails(id: String): Vacancy? {
+        return api.getVacancies()
+            .map { it.toVacancy() }
+            .firstOrNull{it.id == id}
+    }
 }

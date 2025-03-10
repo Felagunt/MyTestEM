@@ -8,4 +8,6 @@ interface VacanciesRepository {
     suspend fun getVacancies(): List<Vacancy>
 
     suspend fun getOffers(): List<Offer>
+
+    suspend fun getVacancyDetails(id: String): Vacancy?
 }

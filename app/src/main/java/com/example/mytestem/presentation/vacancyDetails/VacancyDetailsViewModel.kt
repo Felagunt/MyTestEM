@@ -1,9 +1,15 @@
-package com.example.mytestem.presentation.favorite
+package com.example.mytestem.presentation.vacancyDetails
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.toRoute
+import com.example.mytestem.Route.Route
 import com.example.mytestem.core.domain.Resource
-import com.example.mytestem.domain.use_cases.GetFavoriteVacanciesUseCase
+import com.example.mytestem.domain.use_cases.GetVacanciesUseCase
+import com.example.mytestem.domain.use_cases.GetVacancyDetailsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn
@@ -13,46 +19,46 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
-class FavoriteViewModel @Inject constructor(
-    private val getFavoriteVacanciesUseCase: GetFavoriteVacanciesUseCase
+@HiltViewModel
+class VacancyDetailsViewModel @Inject constructor(
+    private val getVacancyDetailsUseCase: GetVacancyDetailsUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
 
+    private val vacancyId = savedStateHandle.toRoute<Route.VacancyDetails>().id
 
-    private val _state = MutableStateFlow(FavoriteState())
+    private val _state = MutableStateFlow(VacancyDetailsState())
     val state = _state
         .onStart {
-            getVacancies()
+            getVacancies(vacancyId)
         }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000L),
             _state.value
         )
-
-    fun onAction(action: FavoriteAction) {
+    
+    fun onAction(action: VacancyDetailsAction) {
         when(action) {
-            is FavoriteAction.OnResponseClick -> {
-
+            is VacancyDetailsAction.OnBackClick -> {
+                
             }
-            is FavoriteAction.OnBackClick -> {
-
-            }
-            is FavoriteAction.OnFavoriteClick -> {
+            is VacancyDetailsAction.OnResponseClick -> {
 
             }
         }
     }
 
-    private fun getVacancies() {
-        getFavoriteVacanciesUseCase
-            .invoke()
+    private fun getVacancies(id: String) {
+        getVacancyDetailsUseCase
+            .invoke(id)
             .onEach { result ->
                 when(result) {
                     is Resource.Error -> {
                         _state.update {
                             it.copy(
-                                vacancyList = emptyList(),
+                                vacancy = null,
                                 errorMsg = result.message,
                                 isLoading = false
                             )
@@ -63,7 +69,7 @@ class FavoriteViewModel @Inject constructor(
                             it.copy(
                                 isLoading = true,
                                 errorMsg = null,
-                                vacancyList = emptyList()
+                                vacancy = null
                             )
                         }
                     }
@@ -72,7 +78,7 @@ class FavoriteViewModel @Inject constructor(
                             it.copy(
                                 isLoading = false,
                                 errorMsg = null,
-                                vacancyList = result.data!!
+                                vacancy = result.data!!
                             )
                         }
                     }

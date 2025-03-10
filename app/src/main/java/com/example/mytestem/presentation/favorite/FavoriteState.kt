@@ -1,6 +1,5 @@
 package com.example.mytestem.presentation.favorite
 
-import com.example.mytestem.domain.models.Offer
 import com.example.mytestem.domain.models.Vacancy
 
 data class FavoriteState(

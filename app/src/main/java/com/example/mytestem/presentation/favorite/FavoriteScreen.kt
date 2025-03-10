@@ -20,10 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mytestem.domain.models.Vacancy
-import com.example.mytestem.presentation.search.MainAction
-import com.example.mytestem.presentation.search.MainViewModel
 import com.example.mytestem.presentation.search.components.VacancyListItem
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FavoriteScreenRoot(
@@ -35,7 +32,7 @@ fun FavoriteScreenRoot(
         state = state,
         onAction = { action ->
             when (action) {
-                is FavoriteAction.OnVacancyClick -> onClickVacancy(action.vacancy)
+                is FavoriteAction.OnResponseClick -> onClickVacancy(action.vacancy)
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -93,14 +90,14 @@ private fun FavoriteScreen(
                             VacancyListItem(
                                 vacancy = vacancy,
                                 onFavoriteClick = {
-                                    onAction(FavoriteAction.OnFavoriteClick(vacancy.id))
+                                    onAction(FavoriteAction.OnFavoriteClick(vacancy))
                                 },
                                 onResponseClick = {
 
                                 },
                                 modifier = Modifier
                                     .clickable {
-                                        onAction(FavoriteAction.OnVacancyClick(vacancy))
+                                        onAction(FavoriteAction.OnResponseClick(vacancy))
                                     }
                             )
                         }
