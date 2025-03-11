@@ -3,19 +3,31 @@ package com.example.mytestem.presentation.vacancyDetails
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.outlined.Face
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,7 +49,7 @@ fun VacancyDetailsScreenRoot(
     VacancyDetailsScreen(
         state = state,
         onAction = { action ->
-            when(action) {
+            when (action) {
                 is VacancyDetailsAction.OnResponseClick -> onResponseClick(action.vacancy)
                 is VacancyDetailsAction.OnBackClick -> onBackClick
                 else -> Unit
@@ -48,12 +60,76 @@ fun VacancyDetailsScreenRoot(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun VacancyDetailsScreen(
     state: VacancyDetailsState,
     onAction: (VacancyDetailsAction) -> Unit
 ) {
     state.vacancy?.let { vacancy ->
+        TopAppBar(
+            modifier = Modifier
+                .fillMaxWidth()
+                .windowInsetsPadding(WindowInsets.systemBars),
+            navigationIcon = {
+                IconButton(
+                    onClick = {
+                        onAction(VacancyDetailsAction.OnBackClick)
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                        contentDescription = "Navigate back"
+                    )
+                }
+            },
+            title = {
+                Text(text = "")
+            },
+            actions = {
+                IconButton(
+                    onClick = {
+
+                    }
+                ) {
+                    Icons.Outlined.Face
+                }
+                IconButton(
+                    onClick =  {
+
+                    }
+                ) {
+                    Icon(
+                        Icons.Filled.Share,
+                        contentDescription = null
+                    )
+                }
+                IconButton(
+                    onClick = {
+                        onAction(VacancyDetailsAction.OnFavoriteClick)
+                    }) {
+                    Icon(
+                        imageVector = //Icons.Default.FavoriteBorder,
+                        if (vacancy.isFavorite) {
+                            Icons.Filled.Favorite
+                        } else {
+                            Icons.Outlined.FavoriteBorder
+                        },
+                        tint = if(vacancy.isFavorite) {
+                            MaterialTheme.colorScheme.surfaceTint
+                        } else {
+                            MaterialTheme.colorScheme.onSecondaryContainer
+                        },
+                        contentDescription = //"Add to favorite"
+                        if (vacancy.isFavorite) {
+                            "Add to favorite"
+                        } else {
+                            "Remove from favorite"
+                        }
+                    )
+                }
+            },
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -101,7 +177,7 @@ private fun VacancyDetailsScreen(
                 text = "Он получит его с откликом на вакансию",
                 style = MaterialTheme.typography.bodySmall
             )
-            vacancy.questions.forEach {question ->
+            vacancy.questions.forEach { question ->
                 QuestionsChip(question)
             }
             Button(

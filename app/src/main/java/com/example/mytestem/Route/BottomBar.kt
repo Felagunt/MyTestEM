@@ -27,6 +27,7 @@ import com.example.mytestem.presentation.responses.ResponseScreen
 import com.example.mytestem.presentation.search.MainScreenRoot
 import com.example.mytestem.presentation.search.MainViewModel
 import com.example.mytestem.presentation.vacancyDetails.VacancyDetailsScreenRoot
+import com.example.mytestem.presentation.vacancyDetails.VacancyDetailsViewModel
 
 @Composable
 fun BottomBar() {
@@ -97,7 +98,16 @@ fun BottomBar() {
                     }
 
                     composable<Route.VacancyDetails> {
-                        VacancyDetailsScreenRoot()
+                        val viewmodel = hiltViewModel<VacancyDetailsViewModel>()
+                        VacancyDetailsScreenRoot(
+                            viewModel = viewmodel,
+                            onBackClick = {
+                                navController.navigateUp()
+                            },
+                            onResponseClick = {vacancy ->
+                                Route.Favorite
+                            }
+                        )
                     }
                     composable<Route.Favorite> {
                         val viewModel = hiltViewModel<FavoriteViewModel>()
