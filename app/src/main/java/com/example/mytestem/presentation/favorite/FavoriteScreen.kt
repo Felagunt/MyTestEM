@@ -78,7 +78,7 @@ private fun FavoriteScreen(
                     modifier = Modifier.background(MaterialTheme.colorScheme.surface)
                 )
             }
-            state.vacancyList.let {
+            state.vacancyList?.let {
                 Surface(
                     tonalElevation = 4.dp,
                     color = MaterialTheme.colorScheme.surface

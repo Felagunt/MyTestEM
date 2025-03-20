@@ -127,27 +127,28 @@ private fun MainScreen(
                 }
             }
             Box {
-                LazyColumn(
-                    modifier = Modifier,
-                    state = listState
-                ) {
-                    items(state.vacancyList) { vacancy ->
-                        VacancyListItem(
-                            vacancy = vacancy,
-                            onFavoriteClick = {
-                                onAction(MainAction.OnFavoriteClick(vacancy.id))
-                            },
-                            onResponseClick = {
+                if(state.vacancyList.isNotEmpty()){
+                    LazyColumn(
+                        modifier = Modifier,
+                        state = listState
+                    ) {
+                        items(state.vacancyList) { vacancy ->
+                            VacancyListItem(
+                                vacancy = vacancy,
+                                onFavoriteClick = {
+                                    onAction(MainAction.OnFavoriteClick(vacancy.id))
+                                },
+                                onResponseClick = {
 
-                            },
-                            modifier = Modifier
-                                .clickable {
-                                    onAction(MainAction.OnVacancyClick(vacancy))
-                                }
-                        )
-                    }
-                    if (showMore) {
-                        //itemList.add(4, leastList)
+                                },
+                                modifier = Modifier
+                                    .clickable {
+                                        onAction(MainAction.OnVacancyClick(vacancy))
+                                    }
+                            )
+                        }
+                        if (showMore) {
+                            //itemList.add(4, leastList)
 //                        items(leastList) { vacancy ->
 //                            VacancyListItem(
 //                                vacancy = vacancy,
@@ -155,20 +156,20 @@ private fun MainScreen(
 //                                    onAction(MainAction.OnFavoriteClick(vacancy.id))
 //                                }
 //                            )
+                        }
+                    }
+                }
+                this@Column.AnimatedVisibility(scrollContext.isBottom) {
+                    Button(
+                        onClick = {
+                            showMore = true
+                            //itemList.add(4, leastList)
+                        }
+                    ) {
+                        Text("Ещё  вакансии ")//${leastList.size}
                     }
                 }
             }
-            this@Column.AnimatedVisibility(scrollContext.isBottom) {
-                Button(
-                    onClick = {
-                        showMore = true
-                        //itemList.add(4, leastList)
-                    }
-                ) {
-                    Text("Ещё  вакансии ")//${leastList.size}
-                }
-            }
-
         }
     }
 }

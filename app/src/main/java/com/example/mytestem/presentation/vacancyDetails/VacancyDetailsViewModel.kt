@@ -47,6 +47,10 @@ class VacancyDetailsViewModel @Inject constructor(
             is VacancyDetailsAction.OnResponseClick -> {
 
             }
+
+            is VacancyDetailsAction.OnFavoriteClick -> {
+
+            }
         }
     }
 

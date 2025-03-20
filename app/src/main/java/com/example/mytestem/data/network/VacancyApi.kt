@@ -3,6 +3,7 @@ package com.example.mytestem.data.network
 import com.example.mytestem.data.dto.OfferDto
 import com.example.mytestem.data.dto.ResponseDto
 import com.example.mytestem.data.dto.VacancyDto
+import retrofit2.Response
 import retrofit2.http.GET
 
 interface VacancyApi {
@@ -13,8 +14,8 @@ interface VacancyApi {
     suspend fun getAll(): ResponseDto
 
     @GET("/vacancies")
-    suspend fun getVacancies(): List<VacancyDto>
+    suspend fun getVacancies(): Response<List<VacancyDto>>
 
-    @GET("offerrs")
-    suspend fun getOffers(): List<OfferDto>
+    @GET("offers")
+    suspend fun getOffers(): Response<List<OfferDto>>
 }

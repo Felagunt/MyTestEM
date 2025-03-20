@@ -12,17 +12,85 @@ class VacanciesRepositoryImp @Inject constructor(
     private val api: VacancyApi
 ): VacanciesRepository {
 
-    override suspend fun getOffers(): List<Offer> {
-        return api.getOffers().map { it.toOffer() }
+    override suspend fun getOffers(): Result<List<Offer>> {
+        return try {
+            val response = api.getOffers()
+            if(response.isSuccessful) {
+                response.body()?.let { list ->
+                    Result.success(
+                        list
+                            .map {
+                                it.toOffer()
+                            }
+                    )
+                } ?: run { Result.failure(Exception("Error")) }
+            } else {
+                Result.failure(Exception("Smth wrong:"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
-    override suspend fun getVacancies(): List<Vacancy> {
-        return api.getVacancies().map { it.toVacancy() }
+    override suspend fun getFavoriteVacancies(): Result<List<Vacancy>> {
+        return try {
+            val response = api.getVacancies()
+            if(response.isSuccessful) {
+                response.body()?.let { list ->
+                    Result.success(
+                        list
+                            .filter { it.isFavorite }
+                            .map {
+                                it.toVacancy()
+                            }
+                    )
+                } ?: run { Result.failure(Exception("Error")) }
+            } else {
+                Result.failure(Exception("Smth wrong:"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
-    override suspend fun getVacancyDetails(id: String): Vacancy? {
-        return api.getVacancies()
-            .map { it.toVacancy() }
-            .firstOrNull{it.id == id}
+    override suspend fun getVacancies(): Result<List<Vacancy>> {
+        return try {
+            val response = api.getVacancies()
+            if(response.isSuccessful) {
+                response.body()?.let { list ->
+                    Result.success(
+                        list
+                            .map {
+                                it.toVacancy()
+                            }
+                    )
+                } ?: run { Result.failure(Exception("Error")) }
+            } else {
+                Result.failure(Exception("Smth wrong:"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getVacancyDetails(id: String): Result<Vacancy?> {
+        return try {
+            val response = api.getVacancies()
+            if(response.isSuccessful) {
+                response.body()?.let { list ->
+                    Result.success(
+                        list
+                            .map {
+                                it.toVacancy()
+                            }
+                            .firstOrNull{it.id == id}
+                    )
+                } ?: run { Result.failure(Exception("Error")) }
+            } else {
+                Result.failure(Exception("Smth wrong:"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 }

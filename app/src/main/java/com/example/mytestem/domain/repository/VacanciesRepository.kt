@@ -5,9 +5,11 @@ import com.example.mytestem.domain.models.Vacancy
 
 interface VacanciesRepository {
 
-    suspend fun getVacancies(): List<Vacancy>
+    suspend fun getVacancies(): Result<List<Vacancy>>
 
-    suspend fun getOffers(): List<Offer>
+    suspend fun getFavoriteVacancies(): Result<List<Vacancy>>
 
-    suspend fun getVacancyDetails(id: String): Vacancy?
+    suspend fun getOffers(): Result<List<Offer>>
+
+    suspend fun getVacancyDetails(id: String): Result<Vacancy?>
 }

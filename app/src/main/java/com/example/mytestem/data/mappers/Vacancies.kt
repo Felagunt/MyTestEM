@@ -45,7 +45,7 @@ fun ExperienceDto.toExperience(): Experience {
 
 fun SalaryDto.toSalary(): Salary {
     return Salary(
-        full = full,
-        short = short
+        full = full ?: "",
+        short = short ?: ""
     )
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mytestem.core.domain.Resource
 import com.example.mytestem.domain.use_cases.GetFavoriteVacanciesUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
+@HiltViewModel
 class FavoriteViewModel @Inject constructor(
     private val getFavoriteVacanciesUseCase: GetFavoriteVacanciesUseCase
 ) : ViewModel() {

@@ -96,7 +96,9 @@ fun VacancyListItem(
                 Icon(Icons.Default.Info, contentDescription = null)
                 Text(text = vacancy.experience.previewText)
             }
-            Text(text = "Опубликовано ${vacancy.publishedDate.toDate().dayOfMonth} " + vacancy.publishedDate.toDate().month )
+            if(vacancy.publishedDate.isNotBlank()) {
+                Text(text = "Опубликовано ${vacancy.publishedDate.toDate()?.dayOfMonth} " + vacancy.publishedDate.toDate()?.month )
+            }
             Button(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
