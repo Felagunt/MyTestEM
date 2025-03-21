@@ -16,6 +16,6 @@ interface VacancyApi {
     @GET("/vacancies")
     suspend fun getVacancies(): Response<List<VacancyDto>>
 
-    @GET("offers")
+    @GET("/offers")
     suspend fun getOffers(): Response<List<OfferDto>>
 }
