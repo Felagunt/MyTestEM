@@ -1,5 +1,6 @@
 package com.example.mytestem.presentation.vacancyDetails
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.outlined.Face
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -66,6 +68,7 @@ private fun VacancyDetailsScreen(
     state: VacancyDetailsState,
     onAction: (VacancyDetailsAction) -> Unit
 ) {
+
     state.vacancy?.let { vacancy ->
         TopAppBar(
             modifier = Modifier
@@ -137,6 +140,20 @@ private fun VacancyDetailsScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
+            if (state.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.surface)
+                )
+            }
+            if (state.errorMsg?.isNotBlank() == true) {
+                Text(
+                    text = state.errorMsg,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.background(MaterialTheme.colorScheme.surface)
+                )
+            }
             VacancyHeader(
                 vacancy = vacancy
             )

@@ -112,13 +112,13 @@ private fun MainScreen(
                     modifier = Modifier.background(MaterialTheme.colorScheme.surface)
                 )
             }
-            if (state.offerList.isNotEmpty()) {
+            state.offerList?.let {list ->
                 LazyRow(
                     modifier = Modifier,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     items(
-                        items = state.offerList
+                        items = list
                     ) { offer ->
                         RecommendationItem(
                             offer = offer
@@ -127,7 +127,7 @@ private fun MainScreen(
                 }
             }
             Box {
-                if(state.vacancyList.isNotEmpty()){
+                state.vacancyList?.let{ list ->
                     LazyColumn(
                         modifier = Modifier,
                         state = listState

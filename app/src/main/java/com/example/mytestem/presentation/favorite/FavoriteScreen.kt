@@ -58,7 +58,7 @@ private fun FavoriteScreen(
             style = MaterialTheme.typography.titleLarge
         )
         Text(
-            text = "${state.vacancyList.size} вакансия"
+            text = "${state.vacancyList?.size} вакансия"
         )
         Surface(
             tonalElevation = 4.dp,
